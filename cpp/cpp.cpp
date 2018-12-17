@@ -1,21 +1,81 @@
-﻿// cpp.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
-//
-
-#include "pch.h"
+﻿#include "pch.h"
 #include <iostream>
+#include <ctime>
+
+using namespace std;
+
 
 int main()
 {
-    std::cout << "Hello World!\n"; 
+	int answer[3];
+	int i, j;
+	int data[3];
+	int count = 1;
+	int strike, ball;
+
+	srand(static_cast<unsigned int>(time(NULL)));
+	for(i = 0 ; i < 3 ; i++)
+	{
+		answer[i] = (rand() % 9) + 1;
+		for(j = 0 ; j < i ; j++)
+			if (answer[i] == answer[j] && i != j)
+				i--;
+	}
+	cout << answer[0] << answer[1] << answer[2] << endl;
+	while (true)
+	{
+		cout << "[" << count << "회차 숫자야구" << "]" << endl;
+
+		while (true)
+		{
+			for (i = 0; i < 3; i++)
+			{
+				cout << "1부터 9까지의 숫자를 입력하세요 : ";
+				cin >> data[i];
+			}
+			if (data[0] < 1 || data[0] > 9 || data[1] < 1 || data[1] > 9 || data[2] < 1 || data[2] > 9)
+			{
+				cout << "숫자는 1부터 9사이만 입력이 가능합니다!"<< endl;
+				continue;
+			}
+
+			else if((data[0] == data[1]) || (data[0] == data[2]) || (data[1] == data[2]))
+			{
+				cout << "중복된 숫자를 입력할 수 없습니다!" << endl;
+				continue;
+			}
+				break;
+		}
+
+		strike = 0;
+		ball = 0;
+
+		for (i = 0 ; i < 3 ; i++)
+			for (j = 0 ; j < 3 ; j++)
+				if (answer[i] == data[j])
+					if (i == j)
+						strike++;
+					else
+						ball++;
+
+		if (strike || ball)
+			cout << "스트라이크 : " << strike << "볼 : " << ball << endl << endl;
+		else
+			cout << "아웃" << endl;
+		if (strike == 3)
+		{
+			cout << "************ 정답!! ************" << endl;
+			break;
+		}
+		else if (count == 9)
+		{
+			cout << "************ 패배! 정답 : ";
+			cout << answer[0] << " | " << answer[1] << " | " << answer[2];
+			cout << "************" << endl;
+			break;
+		}
+		count++;
+	}
+
+	return 0;
 }
-
-// 프로그램 실행: <Ctrl+F5> 또는 [디버그] > [디버깅하지 않고 시작] 메뉴
-// 프로그램 디버그: <F5> 키 또는 [디버그] > [디버깅 시작] 메뉴
-
-// 시작을 위한 팁: 
-//   1. [솔루션 탐색기] 창을 사용하여 파일을 추가/관리합니다.
-//   2. [팀 탐색기] 창을 사용하여 소스 제어에 연결합니다.
-//   3. [출력] 창을 사용하여 빌드 출력 및 기타 메시지를 확인합니다.
-//   4. [오류 목록] 창을 사용하여 오류를 봅니다.
-//   5. [프로젝트] > [새 항목 추가]로 이동하여 새 코드 파일을 만들거나, [프로젝트] > [기존 항목 추가]로 이동하여 기존 코드 파일을 프로젝트에 추가합니다.
-//   6. 나중에 이 프로젝트를 다시 열려면 [파일] > [열기] > [프로젝트]로 이동하고 .sln 파일을 선택합니다.
